@@ -99,25 +99,26 @@ class Annotator:
                 self.draw.text((box[0], box[1] - h if outside else box[1]), label, fill=txt_color, font=self.font)
         else:  # cv2
             p1, p2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
-            cv2.rectangle(self.im, p1, p2, color, thickness=self.lw, lineType=cv2.LINE_AA)
+            # cv2.rectangle(self.im, p1, p2, color, thickness=self.lw, lineType=cv2.LINE_AA)
             if label:
+                x_point, y_point = int((box[0] + box[2]) / 2), int((box[1] + box[3]) / 2)
                 tf = max(self.lw - 1, 1)  # font thickness
                 w, h = cv2.getTextSize(label, 0, fontScale=self.lw / 3, thickness=tf)[0]  # text width, height
                 outside = p1[1] - h >= 3
                 p2 = p1[0] + w, p1[1] - h - 3 if outside else p1[1] + h + 3
-                cv2.rectangle(self.im, p1, p2, color, -1, cv2.LINE_AA)  # filled
+                # cv2.rectangle(self.im, p1, p2, color, -1, cv2.LINE_AA)  # filled
                 cv2.putText(self.im,
-                            label, (p1[0], p1[1] - 2 if outside else p1[1] + h + 2),
+                            label, (x_point,y_point-20),
                             0,
-                            self.lw / 3,
-                            txt_color,
-                            thickness=tf,
+                            0.8,
+                            (255-color[0],255-color[1],255-color[2]),
+                            thickness=2,
                             lineType=cv2.LINE_AA)
                             
         # Center point in object detection
     def centerpointbbox(self, box, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
         x_point, y_point = int((box[0] + box[2]) / 2), int((box[1] + box[3]) / 2)
-        cv2.circle(self.im, (x_point, y_point), 3, color, -1)
+        cv2.circle(self.im, (x_point, y_point), 2, color, -1)
 
     # Write FPS in images
     def fpsshow(self, fps):
@@ -136,7 +137,14 @@ class Annotator:
 
     def plotxy1(self, box, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
         x_point, y_point = int((box[0] + box[2]) / 2), int((box[1] + box[3]) / 2)
-        cv2.putText(self.im,"%s,%s"%(x_point,y_point),(x_point+10,y_point+10),0,0.8,(255, 255, 255),thickness = 1,lineType = cv2.LINE_AA)
+        cv2.putText(self.im,
+        "%s,%s"%(x_point,y_point),
+        (x_point+10,y_point+10),
+        0,
+        0.8,
+        (255-color[0],255-color[1],255-color[2]),
+        thickness = 1,
+        lineType = cv2.LINE_AA)
 
     def masks(self, masks, colors, im_gpu=None, alpha=0.5):
         """Plot masks at once.
