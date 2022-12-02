@@ -109,16 +109,16 @@ class Annotator:
                 # cv2.rectangle(self.im, p1, p2, color, -1, cv2.LINE_AA)  # filled
                 cv2.putText(self.im,
                             label, (x_point,y_point-20),
-                            0,
+                            2,
                             0.8,
-                            (255-color[0],255-color[1],255-color[2]),
-                            thickness=2,
+                            color,
+                            thickness=1,
                             lineType=cv2.LINE_AA)
                             
         # Center point in object detection
     def centerpointbbox(self, box, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
         x_point, y_point = int((box[0] + box[2]) / 2), int((box[1] + box[3]) / 2)
-        cv2.circle(self.im, (x_point, y_point), 2, color, -1)
+        cv2.circle(self.im, (x_point, y_point), 4, color, -1)
 
     # Write FPS in images
     def fpsshow(self, fps):
@@ -142,11 +142,11 @@ class Annotator:
         (x_point+10,y_point+10),
         0,
         0.8,
-        (255-color[0],255-color[1],255-color[2]),
+        color,
         thickness = 1,
         lineType = cv2.LINE_AA)
 
-    def masks(self, masks, colors, im_gpu=None, alpha=0.5):
+    def masks(self, masks, colors, im_gpu=None, alpha=0.0):
         """Plot masks at once.
         Args:
             masks (tensor): predicted masks on cuda, shape: [n, h, w]

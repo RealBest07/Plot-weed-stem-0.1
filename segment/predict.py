@@ -31,6 +31,9 @@ import os
 import platform
 import sys
 from pathlib import Path
+import sys
+import numpy
+numpy.set_printoptions(threshold=sys.maxsize)
 
 import torch
 
@@ -168,6 +171,14 @@ def run(
                 annotator.masks(masks,
                                 colors=[colors(x, True) for x in det[:, 5]],
                                 im_gpu=None if retina_masks else im[i])
+                
+                
+                # print(len(masks[0][0]))
+                # print(masks[0][0])
+                # print(len(im0s[0][0]))
+                # print(im0s[0][0])
+                # for ic in masks[1][1]: 
+                #     cv2.circle(im, (x_point, y_point), 2, (255,255,255), -1)
 
                 # Write results
                 for j, (*xyxy, conf, cls) in enumerate(reversed(det[:, :6])):
