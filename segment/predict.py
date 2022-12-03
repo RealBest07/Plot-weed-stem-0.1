@@ -173,8 +173,8 @@ def run(
                                 im_gpu=None if retina_masks else im[i])
                 
                 
-                # print(len(masks[0][0]))
-                # print(masks[0][0])
+                print(len(masks[0][0]))
+                print(masks[0][0])
                 # print(len(im0s[0][0]))
                 # print(im0s[0][0])
                 # for ic in masks[1][1]: 
