@@ -173,8 +173,9 @@ def run(
                                 im_gpu=None if retina_masks else im[i])
                 
                 
-                print(len(masks[0][0]))
-                print(masks[0][0])
+                # print(len(masks[0][0]))
+                # print(masks[0][0])
+                # print()
                 # print(len(im0s[0][0]))
                 # print(im0s[0][0])
                 # for ic in masks[1][1]: 
@@ -185,6 +186,7 @@ def run(
                     if save_txt:  # Write to file
                         segj = segments[j].reshape(-1)  # (n,2) to (n*2)
                         line = (cls, *segj, conf) if save_conf else (cls, *segj)  # label format
+                        print(line)
                         with open(f'{txt_path}.txt', 'a') as f:
                             f.write(('%g ' * len(line)).rstrip() % line + '\n')
 
