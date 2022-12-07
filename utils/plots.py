@@ -24,11 +24,13 @@ from utils.general import (CONFIG_DIR, FONT, LOGGER, check_font, check_requireme
                            is_ascii, xywh2xyxy, xyxy2xywh)
 from utils.metrics import fitness
 from utils.segment.general import scale_image
+point = []
 
 # Settings
 RANK = int(os.getenv('RANK', -1))
 matplotlib.rc('font', **{'size': 11})
 matplotlib.use('Agg')  # for writing to files only
+
 
 
 class Colors:
@@ -39,6 +41,7 @@ class Colors:
                 '2C99A8', '00C2FF', '344593', '6473FF', '0018EC', '8438FF', '520085', 'CB38FF', 'FF95C8', 'FF37C7')
         self.palette = [self.hex2rgb(f'#{c}') for c in hexs]
         self.n = len(self.palette)
+        
 
     def __call__(self, i, bgr=False):
         c = self.palette[int(i) % self.n]
@@ -79,6 +82,7 @@ class Annotator:
             self.draw = ImageDraw.Draw(self.im)
             self.font = check_pil_font(font='Arial.Unicode.ttf' if non_ascii else font,
                                        size=font_size or max(round(sum(self.im.size) / 2 * 0.035), 12))
+            
         else:  # use cv2
             self.im = im
         self.lw = line_width or max(round(sum(im.shape) / 2 * 0.003), 2)  # line width
@@ -119,6 +123,11 @@ class Annotator:
     def centerpointbbox(self, box, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
         x_point, y_point = int((box[0] + box[2]) / 2), int((box[1] + box[3]) / 2)
         cv2.circle(self.im, (x_point, y_point), 4, color, -1)
+        ce = (x_point,y_point)
+        point.append(ce)
+        print(point)
+        # cv2.rectangle(self.im,(0,0),(640,540),color,5)
+        # cv2.line(self.im,(320,0),(320,550),color=color,thickness=2)
 
     # Write FPS in images
     def fpsshow(self, fps):
