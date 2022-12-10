@@ -1,1 +1,1 @@
-# Plot-weed-stem-0.1
+# YOLOv5 plot center
