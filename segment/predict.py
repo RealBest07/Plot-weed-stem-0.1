@@ -36,7 +36,8 @@ import numpy
 numpy.set_printoptions(threshold=sys.maxsize)
 
 import torch
-
+import serial ,time
+ser = serial.Serial("COM4", 2000000, timeout=2)
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[1]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -193,9 +194,8 @@ def run(
                         annotator.box_label(xyxy, label, color=colors(c, True))
                         # annotator.draw.polygon(segments[j], outline=colors(c, True), width=3)
                         # Write center point in image
-                        annotator.centerpointbbox(xyxy, color=colors(c, True))
-                        annotator.find_centerpolygon(segments[j], color=colors(c, True))
-                        
+                        xcen,ycen = annotator.centerpointbbox(xyxy, color=colors(c, True))
+                        ser.write(("%s %s"%(xcen,ycen)).encode())
                         # annotator.writeGuildline(xyxy, color=colors(c, True))
                         annotator.plotxy1(xyxy, color=colors(c, True))
                     if save_crop:

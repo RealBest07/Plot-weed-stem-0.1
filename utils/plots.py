@@ -9,7 +9,6 @@ import os
 from copy import copy
 from pathlib import Path
 from urllib.error import URLError
-from shapely.geometry import Polygon
 
 import cv2
 import matplotlib
@@ -123,12 +122,10 @@ class Annotator:
         # Center point in object detection
     def centerpointbbox(self, box, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
         x_point, y_point = int((box[0] + box[2]) / 2), int((box[1] + box[3]) / 2)
-        # cv2.circle(self.im, (x_point, y_point), 4, color, -1)
-        ce = (x_point,y_point)
+        cv2.circle(self.im, (x_point, y_point), 4, color, -1)
         # point.append(ce)
         # print(point)
-        # cv2.rectangle(self.im,(0,0),(640,540),color,5)
-        # cv2.line(self.im,(320,0),(320,550),color=color,thickness=2)
+        #cv2.line(self.im,(320,0),(320,550),color=color,thickness=2)
 
     # Write FPS in images
     def fpsshow(self, fps):
@@ -138,14 +135,7 @@ class Annotator:
                     (255, 255, 255), 
                     thickness = 1, 
                     lineType = cv2.LINE_AA)
-    # Cal a center of segment
-    def find_centerpolygon(self, polygon, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
-        poly = Polygon(polygon)
-        centerpl = poly.centroid
-        xp = int(centerpl.x)
-        yp = int(centerpl.y)
-        # print(centerpl)
-        cv2.circle(self.im, (xp, yp), 4, color, -1)
+
 
     # Write guildline in object detection
     def writeGuildline(self, box, color=(128, 128, 128), txt_color=(255, 255, 255)):
@@ -164,7 +154,7 @@ class Annotator:
         thickness = 1,
         lineType = cv2.LINE_AA)
 
-    def masks(self, masks, colors, im_gpu=None, alpha=0.5):
+    def masks(self, masks, colors, im_gpu=None, alpha=0.0):
         """Plot masks at once.
         Args:
             masks (tensor): predicted masks on cuda, shape: [n, h, w]
