@@ -123,6 +123,7 @@ class Annotator:
     def centerpointbbox(self, box, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
         x_point, y_point = int((box[0] + box[2]) / 2), int((box[1] + box[3]) / 2)
         cv2.circle(self.im, (x_point, y_point), 4, color, -1)
+        return x_point,y_point
         # point.append(ce)
         # print(point)
         #cv2.line(self.im,(320,0),(320,550),color=color,thickness=2)
